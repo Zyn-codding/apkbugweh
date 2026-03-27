@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ZETSU-X | Dashboard</title>
+  <title>NXT CORE | Dashboard</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
@@ -159,7 +159,6 @@
       margin-right: auto;
     }
 
-    /* Bug Panel Styles */
     .bug-panel {
       max-width: 600px;
       margin: 0 auto;
@@ -224,7 +223,6 @@
       box-shadow: 0 10px 25px -5px rgba(138, 43, 226, 0.5);
     }
 
-    /* Loading Modal */
     .modal {
       display: none;
       position: fixed;
@@ -524,7 +522,7 @@
         <a href="#" onclick="logout()" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
       </div>
     </div>
-    <h1 class="hero-title">ZETSU-X</h1>
+    <h1 class="hero-title">NXT CORE</h1>
     <div class="nav-container">
       <a href="#" class="nav-link active" data-section="home">Home</a>
       <a href="#" class="nav-link" data-section="bug">Bug</a>
@@ -538,7 +536,7 @@
     <!-- HOME SECTION -->
     <section id="home" class="section active">
       <div class="hero">
-        <div class="hero-subtitle">Welcome to ZETSU-X - Advanced System API Bug & Exploit Platform.</div>
+        <div class="hero-subtitle">Welcome to NXT CORE - Advanced System API Bug & Exploit Platform.</div>
         <a href="#" class="btn" onclick="showSection('bug')">
           <i class="fas fa-bug"></i> Launch Bug Tools
         </a>
@@ -549,7 +547,7 @@
     <section id="bug" class="section">
       <div class="bug-panel">
         <h2 class="bug-title">
-          <i class="fas fa-bug"></i> ZETSU-X Bug
+          <i class="fas fa-bug"></i> NXT CORE Bug
         </h2>
         
         <div class="form-group">
@@ -619,10 +617,10 @@
 
     <!-- ABOUT SECTION -->
     <section id="about" class="section">
-      <h2 class="section-title">About ZETSU-X</h2>
+      <h2 class="section-title">About NXT CORE</h2>
       <div class="about-content">
         <div class="about-text">
-          <p>ZETSU-X is a sophisticated platform for managing and exploring bugs in API systems. Built with the latest technology.</p>
+          <p>NXT CORE is a sophisticated platform for managing and exploring bugs in API systems. Built with the latest technology.</p>
           <p>Our platform is designed for security researchers and exploit enthusiasts.</p>
         </div>
         <div>
@@ -649,7 +647,7 @@
             </div>
             <div>
               <h3>Telegram</h3>
-              <p>@ZetsuTheDev</p>
+              <p>@SyallOfficial</p>
             </div>
           </div>
           <div class="contact-item">
@@ -658,7 +656,7 @@
             </div>
             <div>
               <h3>Email</h3>
-              <p>dozdevelopment1@gmail.com</p>
+              <p>irsyalfaiz97@gmail.com</p>
             </div>
           </div>
           <div class="contact-item">
@@ -693,10 +691,9 @@
   </main>
 
   <footer>
-    <p class="footer-text">© 2026 ZETSU-X. All rights reserved.</p>
+    <p class="footer-text">© 2025 NXT CORE. All rights reserved.</p>
   </footer>
 
-  <!-- Loading Modal -->
   <div id="loadingModal" class="modal">
     <div class="modal-content">
       <i class="fas fa-bug" style="font-size: 48px; color: #8a2be2;"></i>
@@ -710,11 +707,11 @@
   <script src="https://cdn.jsdelivr.net/gh/jnicol/particleground/jquery.particleground.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-    // ========== CEK SESSION (SESUAI DENGAN INDEX.HTML) ==========
+    // ========== CEK SESSION NXT CORE ==========
     function checkSession() {
-      const loggedIn = localStorage.getItem('zetsu_logged_in');
-      const username = localStorage.getItem('zetsu_user');
-      const level = localStorage.getItem('zetsu_level');
+      const loggedIn = localStorage.getItem('nxt_logged_in');
+      const username = localStorage.getItem('nxt_user');
+      const level = localStorage.getItem('nxt_level');
       
       if (!loggedIn || loggedIn !== 'true') {
         window.location.href = 'index.html';
@@ -726,13 +723,12 @@
     }
 
     function logout() {
-      localStorage.removeItem('zetsu_logged_in');
-      localStorage.removeItem('zetsu_user');
-      localStorage.removeItem('zetsu_level');
+      localStorage.removeItem('nxt_logged_in');
+      localStorage.removeItem('nxt_user');
+      localStorage.removeItem('nxt_level');
       window.location.href = 'index.html';
     }
 
-    // Navigation
     function showSection(sectionId) {
       document.querySelectorAll('.section').forEach(section => {
         section.classList.remove('active');
@@ -769,7 +765,6 @@
       }, 4000);
     }
 
-    // Loading Animation
     function showLoading(targetNumber, bugType) {
       return new Promise((resolve) => {
         const modal = document.getElementById('loadingModal');
@@ -810,7 +805,6 @@
       });
     }
 
-    // Send Bug Function
     async function sendBug() {
       const targetNumber = document.getElementById('targetNumber').value.trim();
       const bugType = document.getElementById('bugType').value;
@@ -838,7 +832,6 @@
       return false;
     }
 
-    // Initialize
     const user = checkSession();
     
     $(document).ready(function() {
