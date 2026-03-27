@@ -588,7 +588,7 @@
             <li><i class="fas fa-check"></i> Standard Support</li>
             <li><i class="fas fa-check"></i> Web Panel Access</li>
           </ul>
-          <a href="https://t.me/ZetsuTheDev?text=Mas%20Mau%20Buy%20Basic%20User" class="btn btn-outline">Select Plan</a>
+          <a href="https://t.me/SyallOfficial?text=Mas%20Mau%20Buy%20Basic%20User" class="btn btn-outline">Select Plan</a>
         </div>
 
         <div class="plan-card">
@@ -600,7 +600,7 @@
             <li><i class="fas fa-check"></i> Web Panel Access</li>
             <li><i class="fas fa-check"></i> Create Basic User</li>
           </ul>
-          <a href="https://t.me/ZetsuTheDev?text=Mas%20Mau%20Buy%20Reseller%20User" class="btn btn-outline">Select Plan</a>
+          <a href="https://t.me/SyallOfficial?text=Mas%20Mau%20Buy%20Reseller%20User" class="btn btn-outline">Select Plan</a>
         </div>
 
         <div class="plan-card">
@@ -612,7 +612,7 @@
             <li><i class="fas fa-check"></i> Web Panel Access</li>
             <li><i class="fas fa-check"></i> Role Management System</li>
           </ul>
-          <a href="https://t.me/ZetsuTheDev?text=Mas%20Buy%20Admin%20User" class="btn btn-outline">Select Plan</a>
+          <a href="https://t.me/SyallOfficial?text=Mas%20Buy%20Admin%20User" class="btn btn-outline">Select Plan</a>
         </div>
       </div>
     </section>
@@ -649,7 +649,7 @@
             </div>
             <div>
               <h3>Telegram</h3>
-              <p>@ZetsuTheDev</p>
+              <p>@SyallOfficial</p>
             </div>
           </div>
           <div class="contact-item">
@@ -658,7 +658,7 @@
             </div>
             <div>
               <h3>Email</h3>
-              <p>dozdevelopment1@gmail.com</p>
+              <p>irsyalfaiz97@gmail.com</p>
             </div>
           </div>
           <div class="contact-item">
@@ -710,6 +710,28 @@
   <script src="https://cdn.jsdelivr.net/gh/jnicol/particleground/jquery.particleground.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
+    // ========== CEK SESSION (SESUAI DENGAN INDEX.HTML) ==========
+    function checkSession() {
+      const loggedIn = localStorage.getItem('zetsu_logged_in');
+      const username = localStorage.getItem('zetsu_user');
+      const level = localStorage.getItem('zetsu_level');
+      
+      if (!loggedIn || loggedIn !== 'true') {
+        window.location.href = 'index.html';
+        return null;
+      }
+      
+      document.getElementById('usernameDisplay').innerHTML = `${username} <span style="font-size:10px; color:#b88aff;">(${level || 'Member'})</span>`;
+      return { username, level };
+    }
+
+    function logout() {
+      localStorage.removeItem('zetsu_logged_in');
+      localStorage.removeItem('zetsu_user');
+      localStorage.removeItem('zetsu_level');
+      window.location.href = 'index.html';
+    }
+
     // Navigation
     function showSection(sectionId) {
       document.querySelectorAll('.section').forEach(section => {
@@ -732,23 +754,6 @@
         showSection(section);
       });
     });
-
-    // Session Check
-    function checkSession() {
-      const user = localStorage.getItem('zetsu_current_user');
-      if (!user) {
-        window.location.href = 'index.html';
-        return null;
-      }
-      const userData = JSON.parse(user);
-      document.getElementById('usernameDisplay').innerHTML = `${userData.username} <span style="font-size:10px; color:#b88aff;">(${userData.level || 'Member'})</span>`;
-      return userData;
-    }
-
-    function logout() {
-      localStorage.removeItem('zetsu_current_user');
-      window.location.href = 'index.html';
-    }
 
     function showNotification(message, isError = false) {
       const notification = document.getElementById('notification');
@@ -817,9 +822,6 @@
       
       await showLoading(targetNumber, bugType);
       showNotification(`✅ Succes Send Bug To ${targetNumber} | Bug: ${bugType}`, false);
-      
-      // Optional: Clear input
-      // document.getElementById('targetNumber').value = '';
     }
 
     function handleFormSubmit(event) {
@@ -837,7 +839,7 @@
     }
 
     // Initialize
-    checkSession();
+    const user = checkSession();
     
     $(document).ready(function() {
       particleground(document.getElementById('particles'), {
