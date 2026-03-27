@@ -1,16 +1,11 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>ZETSU | Login System</title>
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Font Awesome -->
+  <title>ZETSU | Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;800;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
   <style>
     * {
       margin: 0;
@@ -40,9 +35,8 @@
 
     .particle {
       position: absolute;
-      background: rgba(138, 43, 226, 0.6);
+      background: rgba(138, 43, 226, 0.5);
       border-radius: 50%;
-      filter: blur(2px);
       animation: floatParticle linear infinite;
     }
 
@@ -51,10 +45,10 @@
         transform: translateY(100vh) translateX(0);
         opacity: 0;
       }
-      10% { opacity: 0.5; }
-      90% { opacity: 0.5; }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.4; }
       100% {
-        transform: translateY(-100px) translateX(100px);
+        transform: translateY(-100px) translateX(80px);
         opacity: 0;
       }
     }
@@ -66,10 +60,10 @@
       border-radius: 32px;
       padding: 45px 40px;
       width: 100%;
-      max-width: 450px;
+      max-width: 420px;
       z-index: 2;
       position: relative;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(138, 43, 226, 0.2);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
       animation: fadeInUp 0.6s ease-out;
       margin: 20px;
     }
@@ -122,7 +116,6 @@
       font-weight: 900;
       font-family: 'Orbitron', sans-serif;
       color: white;
-      text-shadow: 0 0 15px rgba(138, 43, 226, 0.8);
       box-shadow: 0 0 30px rgba(138, 43, 226, 0.5);
       border: 2px solid rgba(138, 43, 226, 0.8);
     }
@@ -162,7 +155,6 @@
       color: #8a2be2;
       font-size: 18px;
       z-index: 1;
-      transition: all 0.3s;
     }
 
     input {
@@ -181,7 +173,6 @@
       outline: none;
       border-color: #8a2be2;
       box-shadow: 0 0 15px rgba(138, 43, 226, 0.3);
-      background: rgba(26, 26, 26, 1);
     }
 
     input::placeholder {
@@ -246,7 +237,7 @@
       align-items: center;
       gap: 10px;
       z-index: 1000;
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 500;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
       animation: toastSlide 0.3s ease;
@@ -268,11 +259,9 @@
         padding: 35px 25px;
         margin: 20px;
       }
-      
       .title {
         font-size: 30px;
       }
-      
       .logo-icon {
         width: 80px;
         height: 80px;
@@ -281,18 +270,17 @@
     }
   </style>
 </head>
-
 <body>
   <div class="particles" id="particles"></div>
-  
+
   <div class="card">
     <div class="logo">
       <div class="logo-icon">Z</div>
-      <div class="title">ZETSU-X ACCES SYSTEM</div>
+      <div class="title">ZETSU</div>
       <div class="subtitle">ZETSU-X ACCESS SYSTEM</div>
     </div>
 
-    <form id="loginForm" onsubmit="return handleLogin(event)">
+    <form id="loginForm">
       <div class="input-group">
         <i class="fas fa-user"></i>
         <input type="text" id="username" placeholder="Username" autocomplete="off" required>
@@ -314,36 +302,24 @@
   <div id="toast" style="display: none;"></div>
 
   <script>
-    // ==================== DATABASE AKUN (PRIVATE) ====================
+    // ==================== 5 AKUN ====================
+    // GANTI USERNAME & PASSWORD DI SINI, ZETSU!
     const ACCOUNTS = [
-      { username: "zetsu", password: "zetsu1", level: "Owner" },
+      { username: "zetsu", password: "zetsu123", level: "Owner" },
       { username: "fanz", password: "fanz123", level: "Admin" },
-      { username: "user", password: "user123", level: "Basic" },
       { username: "reseller", password: "reseller123", level: "Reseller" },
-      { username: "syall", password: "syall123", level: "VIP" },
-      { username: "tes", password: "123", level: "Tester" }
+      { username: "vip", password: "vip123", level: "VIP" },
+      { username: "user", password: "user123", level: "Basic" }
     ];
+    // ==============================================
 
-    // Initialize localStorage
-    function initAccounts() {
-      if (!localStorage.getItem('zetsu_accounts')) {
-        localStorage.setItem('zetsu_accounts', JSON.stringify(ACCOUNTS));
-      }
-    }
-
-    function getAccounts() {
-      return JSON.parse(localStorage.getItem('zetsu_accounts') || JSON.stringify(ACCOUNTS));
-    }
-
-    let toastTimeout;
     function showToast(message, isError = false) {
       const toast = document.getElementById('toast');
       toast.innerHTML = `<i class="fas ${isError ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i> ${message}`;
       toast.style.display = 'flex';
       toast.style.background = isError ? '#8B0000' : '#1a1a2e';
       
-      if (toastTimeout) clearTimeout(toastTimeout);
-      toastTimeout = setTimeout(() => {
+      setTimeout(() => {
         toast.style.display = 'none';
       }, 3000);
     }
@@ -355,20 +331,25 @@
       const password = document.getElementById('password').value;
       
       if (!username || !password) {
-        showToast("Masukkan username dan password!", true);
+        showToast("Isi username dan password dulu, Zetsu!", true);
         return false;
       }
       
-      const accounts = getAccounts();
-      const validAccount = accounts.find(acc => 
+      // Cari akun yang cocok
+      const found = ACCOUNTS.find(acc => 
         acc.username.toLowerCase() === username.toLowerCase() && 
         acc.password === password
       );
       
-      if (validAccount) {
-        showToast(`✓ Login berhasil! Selamat datang, ${validAccount.username}`, false);
-        localStorage.setItem('zetsu_current_user', JSON.stringify(validAccount));
+      if (found) {
+        showToast(`✓ Login berhasil! Selamat datang, ${found.username} (${found.level})`, false);
         
+        // Simpan session
+        localStorage.setItem('zetsu_logged_in', 'true');
+        localStorage.setItem('zetsu_user', found.username);
+        localStorage.setItem('zetsu_level', found.level);
+        
+        // Redirect ke dashboard
         setTimeout(() => {
           window.location.href = 'dashboard.html';
         }, 1000);
@@ -379,17 +360,18 @@
       return false;
     }
 
+    // Buat efek floating particles
     function createParticles() {
       const container = document.getElementById('particles');
-      const particleCount = 50;
+      const particleCount = 45;
       
       for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
         particle.classList.add('particle');
         
-        const size = Math.random() * 4 + 2;
+        const size = Math.random() * 5 + 2;
         const left = Math.random() * 100;
-        const duration = Math.random() * 12 + 8;
+        const duration = Math.random() * 12 + 10;
         const delay = Math.random() * 15;
         
         particle.style.width = `${size}px`;
@@ -402,9 +384,11 @@
       }
     }
 
-    initAccounts();
+    // Attach event listener
+    document.getElementById('loginForm').addEventListener('submit', handleLogin);
+    
+    // Initialize
     createParticles();
   </script>
 </body>
-
 </html>
