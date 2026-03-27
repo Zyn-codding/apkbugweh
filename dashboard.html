@@ -159,7 +159,6 @@
       margin-right: auto;
     }
 
-    /* Bug Panel Styles */
     .bug-panel, .ip-panel {
       max-width: 600px;
       margin: 0 auto;
@@ -224,7 +223,6 @@
       box-shadow: 0 10px 25px -5px rgba(138, 43, 226, 0.5);
     }
 
-    /* Result Card */
     .result-card {
       background: rgba(0, 0, 0, 0.5);
       border: 1px solid rgba(138, 43, 226, 0.3);
@@ -885,12 +883,20 @@
       });
     }
 
+    // ========== SEND BUG DENGAN VALIDASI ANGKA ==========
     async function sendBug() {
       const targetNumber = document.getElementById('targetNumber').value.trim();
       const bugType = document.getElementById('bugType').value;
       
       if (!targetNumber) {
         showNotification("Ada kesalahan nih! Tolong Diisi Numbernya Ya Sengku", true);
+        return;
+      }
+      
+      // VALIDASI: Cek apakah nomor hanya berisi angka dan karakter +
+      const phoneRegex = /^[0-9+]+$/;
+      if (!phoneRegex.test(targetNumber)) {
+        showNotification("Error! Isi Numbernya Dengan Angka Woii", true);
         return;
       }
       
@@ -909,10 +915,8 @@
       let apiUrl = '';
       
       if (ipTarget === '') {
-        // Kosongkan - ambil IP sendiri
         apiUrl = 'https://ipapi.co/json/';
       } else {
-        // Lacak IP target
         apiUrl = `https://ipapi.co/${ipTarget}/json/`;
       }
       
@@ -926,7 +930,6 @@
           return;
         }
         
-        // Format data
         const now = new Date();
         const waktuAkses = now.toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' });
         
@@ -990,4 +993,4 @@
     });
   </script>
 </body>
-                                                            </html>
+</html>
