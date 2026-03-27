@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZETSU-X | Dashboard</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: black;
+      font-family: 'Poppins', sans-serif;
+      color: #b19cd9;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    #particles {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 0;
+    }
+
+    header {
+      position: relative;
+      z-index: 2;
+      padding: 20px;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.7);
+      border-bottom: 1px solid rgba(138, 43, 226, 0.2);
+    }
+
+    .logo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    .logo {
+      width: 80px;
+      filter: drop-shadow(0 0 10px #8a2be2);
+    }
+
+    .user-info {
+      position: absolute;
+      top: 0;
+      right: 30px;
+      background: rgba(138, 43, 226, 0.2);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      border: 1px solid rgba(138, 43, 226, 0.4);
+    }
+
+    .user-info i {
+      margin-right: 8px;
+    }
+
+    .logout-btn {
+      margin-left: 12px;
+      color: #ff6b6b;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .logout-btn:hover {
+      text-decoration: underline;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+
+    .nav-link {
+      color: #b88aff;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 8px 15px;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      background: rgba(138, 43, 226, 0.2);
+      text-shadow: 0 0 10px #b88aff;
+    }
+
+    main {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+
+    .section {
+      background: rgba(138, 43, 226, 0.05);
+      border: 1px solid rgba(138, 43, 226, 0.2);
+      backdrop-filter: blur(8px);
+      padding: 30px;
+      border-radius: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 0 25px rgba(138, 43, 226, 0.3);
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-title {
+      font-size: 28px;
+      color: #b88aff;
+      text-shadow: 0 0 10px #b88aff;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .hero-title {
+      font-size: 42px;
+      color: #b88aff;
+      text-shadow: 0 0 10px #b88aff;
+      margin-bottom: 10px;
+      letter-spacing: 2px;
+    }
+
+    .hero-subtitle {
+      font-size: 16px;
+      color: #d6b3ff;
+      margin-bottom: 25px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Bug Panel Styles */
+    .bug-panel {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .bug-title {
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 30px;
+      color: #b88aff;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 600;
+      color: #d6b3ff;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 14px 18px;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(138, 43, 226, 0.4);
+      border-radius: 12px;
+      color: white;
+      font-size: 16px;
+      font-family: 'Poppins', sans-serif;
+      transition: all 0.3s;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      outline: none;
+      border-color: #8a2be2;
+      box-shadow: 0 0 15px rgba(138, 43, 226, 0.3);
+    }
+
+    .form-group input::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .send-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #8a2be2, #4b0082);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 10px;
+    }
+
+    .send-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(138, 43, 226, 0.5);
+    }
+
+    /* Loading Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: rgba(20, 20, 40, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(138, 43, 226, 0.5);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      min-width: 300px;
+    }
+
+    .loading-bar {
+      width: 100%;
+      height: 8px;
+      background: rgba(138, 43, 226, 0.3);
+      border-radius: 10px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+
+    .loading-progress {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #8a2be2, #b88aff);
+      border-radius: 10px;
+      transition: width 0.3s ease;
+    }
+
+    .loading-text {
+      font-size: 18px;
+      margin-top: 15px;
+      color: #b88aff;
+    }
+
+    .plans-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+
+    .plan-card {
+      background: rgba(35, 0, 60, 0.3);
+      border: 1px solid rgba(138, 43, 226, 0.3);
+      border-radius: 15px;
+      padding: 25px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .plan-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(138, 43, 226, 0.3);
+    }
+
+    .plan-name {
+      font-size: 22px;
+      color: #b88aff;
+      margin-bottom: 15px;
+    }
+
+    .plan-price {
+      font-size: 28px;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    .plan-price span {
+      font-size: 16px;
+      color: #d6b3ff;
+    }
+
+    .plan-features {
+      list-style: none;
+      margin-bottom: 25px;
+      text-align: left;
+    }
+
+    .plan-features li {
+      position: relative;
+      padding-left: 40px;
+      margin-bottom: 12px;
+      line-height: 1.6;
+      list-style: none;
+    }
+
+    .plan-features li i {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #b88aff;
+      font-size: 18px;
+    }
+
+    .btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #8a2be2, #4b0082);
+      color: white;
+      padding: 12px 25px;
+      border-radius: 10px;
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: 0 0 12px rgba(138, 43, 226, 0.3);
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid #8a2be2;
+      color: #b88aff;
+    }
+
+    .btn-outline:hover {
+      background: rgba(138, 43, 226, 0.1);
+    }
+
+    .about-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .about-text {
+      line-height: 1.6;
+    }
+
+    .about-features {
+      list-style: none;
+    }
+
+    .about-features li {
+      margin: 15px 0;
+      padding-left: 42px;
+      position: relative;
+    }
+
+    .about-features li i {
+      color: #b88aff;
+      position: absolute;
+      left: 0;
+      top: 2px;
+      font-size: 15px;
+    }
+
+    .contact-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .contact-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(138, 43, 226, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #b88aff;
+      font-size: 18px;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .form-control {
+      background: rgba(138, 43, 226, 0.1);
+      border: 1px solid rgba(138, 43, 226, 0.3);
+      border-radius: 8px;
+      padding: 12px 15px;
+      color: white;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: #8a2be2;
+      box-shadow: 0 0 10px rgba(138, 43, 226, 0.3);
+    }
+
+    textarea.form-control {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    footer {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.7);
+      border-top: 1px solid rgba(138, 43, 226, 0.2);
+      margin-top: 50px;
+    }
+
+    .footer-text {
+      font-size: 14px;
+      color: #8a2be2;
+    }
+
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 20px;
+      border-radius: 8px;
+      background: rgba(70, 0, 120, 0.9);
+      border: 1px solid #8a2be2;
+      color: white;
+      z-index: 1000;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      transform: translateX(100vw);
+      transition: transform 0.3s ease;
+    }
+    
+    .notification.show {
+      transform: translateX(0);
+    }
+
+    .notification.error {
+      background: rgba(139, 0, 0, 0.9);
+      border-color: #ff4444;
+    }
+
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 28px;
+      }
+      
+      .section {
+        padding: 20px;
+      }
+      
+      .nav-container {
+        flex-wrap: wrap;
+      }
+      
+      .user-info {
+        position: relative;
+        top: auto;
+        right: auto;
+        display: inline-block;
+        margin-bottom: 15px;
+      }
+      
+      .logo-container {
+        flex-direction: column;
+      }
+      
+      .bug-panel {
+        padding: 0 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="particles"></div>
+  
+  <div id="notification" class="notification"></div>
+
+  <header>
+    <div class="logo-container">
+      <img src="https://files.catbox.moe/0mg829.jpg" alt="Logo" class="logo">
+      <div class="user-info" id="userInfo">
+        <i class="fas fa-user"></i> <span id="usernameDisplay">Loading...</span>
+        <a href="#" onclick="logout()" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      </div>
+    </div>
+    <h1 class="hero-title">ZETSU-X</h1>
+    <div class="nav-container">
+      <a href="#" class="nav-link active" data-section="home">Home</a>
+      <a href="#" class="nav-link" data-section="bug">Bug</a>
+      <a href="#" class="nav-link" data-section="plans">Plans</a>
+      <a href="#" class="nav-link" data-section="about">About</a>
+      <a href="#" class="nav-link" data-section="contact">Contact</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- HOME SECTION -->
+    <section id="home" class="section active">
+      <div class="hero">
+        <div class="hero-subtitle">Welcome to ZETSU-X - Advanced System API Bug & Exploit Platform.</div>
+        <a href="#" class="btn" onclick="showSection('bug')">
+          <i class="fas fa-bug"></i> Launch Bug Tools
+        </a>
+      </div>
+    </section>
+
+    <!-- BUG SECTION -->
+    <section id="bug" class="section">
+      <div class="bug-panel">
+        <h2 class="bug-title">
+          <i class="fas fa-bug"></i> ZETSU-X Bug
+        </h2>
+        
+        <div class="form-group">
+          <label><i class="fas fa-bullseye"></i> Target</label>
+          <input type="text" id="targetNumber" placeholder="e.g. +62xxxxxxxxxx" autocomplete="off">
+        </div>
+        
+        <div class="form-group">
+          <label><i class="fas fa-list"></i> Select Bug</label>
+          <select id="bugType">
+            <option value="Crash Android">Crash Android</option>
+            <option value="Forclose">Forclose</option>
+            <option value="Delay Invisible">Delay Invisible</option>
+            <option value="Delay Hard">Delay Hard</option>
+            <option value="One Msg Fc">One Msg Fc</option>
+            <option value="Crash Beta">Crash Beta</option>
+            <option value="Blank">Blank</option>
+          </select>
+        </div>
+        
+        <button class="send-btn" onclick="sendBug()">
+          <i class="fas fa-paper-plane"></i> Send Bug
+        </button>
+      </div>
+    </section>
+
+    <!-- PLANS SECTION -->
+    <section id="plans" class="section">
+      <h2 class="section-title">Membership Plans</h2>
+      <div class="plans-container">
+        <div class="plan-card">
+          <h3 class="plan-name">Basic User</h3>
+          <div class="plan-price">Rp 25.000 <span>/Lifetime</span></div>
+          <ul class="plan-features">
+            <li><i class="fas fa-check"></i> Limited Requests Day</li>
+            <li><i class="fas fa-check"></i> Standard Support</li>
+            <li><i class="fas fa-check"></i> Web Panel Access</li>
+          </ul>
+          <a href="https://t.me/SyallOfficial?text=Mas%20Mau%20Buy%20Basic%20User" class="btn btn-outline">Select Plan</a>
+        </div>
+
+        <div class="plan-card">
+          <h3 class="plan-name">Reseller User</h3>
+          <div class="plan-price">Rp 60.000 <span>/Lifetime</span></div>
+          <ul class="plan-features">
+            <li><i class="fas fa-check"></i> Increased Request Limits</li>
+            <li><i class="fas fa-check"></i> Priority Support</li>
+            <li><i class="fas fa-check"></i> Web Panel Access</li>
+            <li><i class="fas fa-check"></i> Create Basic User</li>
+          </ul>
+          <a href="https://t.me/SyallOfficial?text=Mas%20Mau%20Buy%20Reseller%20User" class="btn btn-outline">Select Plan</a>
+        </div>
+
+        <div class="plan-card">
+          <h3 class="plan-name">Admin User</h3>
+          <div class="plan-price">Rp 100.000 <span>/Lifetime</span></div>
+          <ul class="plan-features">
+            <li><i class="fas fa-check"></i> Unlimited Request Limits</li>
+            <li><i class="fas fa-check"></i> 24/7 Priority Support</li>
+            <li><i class="fas fa-check"></i> Web Panel Access</li>
+            <li><i class="fas fa-check"></i> Role Management System</li>
+          </ul>
+          <a href="https://t.me/SyallOfficial?text=Mas%20Buy%20Admin%20User" class="btn btn-outline">Select Plan</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="section">
+      <h2 class="section-title">About ZETSU-X</h2>
+      <div class="about-content">
+        <div class="about-text">
+          <p>ZETSU-X is a sophisticated platform for managing and exploring bugs in API systems. Built with the latest technology.</p>
+          <p>Our platform is designed for security researchers and exploit enthusiasts.</p>
+        </div>
+        <div>
+          <ul class="about-features">
+            <li><i class="fas fa-bug"></i> Advanced Bug Detection Algorithms</li>
+            <li><i class="fas fa-shield-alt"></i> Real-time Vulnerability Scanning</li>
+            <li><i class="fas fa-bolt"></i> High-performance API</li>
+            <li><i class="fas fa-code"></i> Support for Multiple Programming Languages</li>
+            <li><i class="fas fa-mobile-alt"></i> Responsive Design for all Devices</li>
+            <li><i class="fas fa-cloud"></i> Cloud-based Infrastructure</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="section">
+      <h2 class="section-title">Contact Owner</h2>
+      <div class="contact-container">
+        <div class="contact-info">
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fab fa-telegram"></i>
+            </div>
+            <div>
+              <h3>Telegram</h3>
+              <p>@SyallOfficial</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div>
+              <h3>Email</h3>
+              <p>irsyalfaiz97@gmail.com</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div>
+              <h3>Response Time</h3>
+              <p>Within 24 hours</p>
+            </div>
+          </div>
+        </div>
+        
+        <form class="contact-form" action="https://submit-form.com/L1CukDuye" onsubmit="return handleFormSubmit(event)">
+          <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" required>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" class="form-control" placeholder="Type your message here" required></textarea>
+          </div>
+          
+          <button type="submit" class="btn">Send Message</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p class="footer-text">© 2025 ZETSU-X. All rights reserved.</p>
+  </footer>
+
+  <!-- Loading Modal -->
+  <div id="loadingModal" class="modal">
+    <div class="modal-content">
+      <i class="fas fa-bug" style="font-size: 48px; color: #8a2be2;"></i>
+      <div class="loading-bar">
+        <div class="loading-progress" id="loadingProgress"></div>
+      </div>
+      <div class="loading-text" id="loadingText">Loading 0%</div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/gh/jnicol/particleground/jquery.particleground.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    // Navigation
+    function showSection(sectionId) {
+      document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+      });
+      document.getElementById(sectionId).classList.add('active');
+      
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+        if(link.getAttribute('data-section') === sectionId) {
+          link.classList.add('active');
+        }
+      });
+    }
+
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const section = link.getAttribute('data-section');
+        showSection(section);
+      });
+    });
+
+    // Session Check
+    function checkSession() {
+      const user = localStorage.getItem('zetsu_current_user');
+      if (!user) {
+        window.location.href = 'index.html';
+        return null;
+      }
+      const userData = JSON.parse(user);
+      document.getElementById('usernameDisplay').innerHTML = `${userData.username} <span style="font-size:10px; color:#b88aff;">(${userData.level || 'Member'})</span>`;
+      return userData;
+    }
+
+    function logout() {
+      localStorage.removeItem('zetsu_current_user');
+      window.location.href = 'index.html';
+    }
+
+    function showNotification(message, isError = false) {
+      const notification = document.getElementById('notification');
+      notification.innerHTML = `<i class="fas ${isError ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i> ${message}`;
+      notification.classList.add('show');
+      if (isError) {
+        notification.classList.add('error');
+      } else {
+        notification.classList.remove('error');
+      }
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 4000);
+    }
+
+    // Loading Animation
+    function showLoading(targetNumber, bugType) {
+      return new Promise((resolve) => {
+        const modal = document.getElementById('loadingModal');
+        const progressBar = document.getElementById('loadingProgress');
+        const loadingText = document.getElementById('loadingText');
+        
+        modal.style.display = 'flex';
+        
+        const steps = [
+          { percent: 1, text: "Loading 1-10%" },
+          { percent: 3, text: "Loading 3-10%" },
+          { percent: 5, text: "Loading 5-10%" },
+          { percent: 6, text: "Loading 6-10%" },
+          { percent: 8, text: "Loading 8-10%" },
+          { percent: 10, text: "Loading 10-10%" }
+        ];
+        
+        let currentStep = 0;
+        
+        function updateProgress() {
+          if (currentStep < steps.length) {
+            const step = steps[currentStep];
+            progressBar.style.width = `${step.percent * 10}%`;
+            loadingText.textContent = step.text;
+            currentStep++;
+            setTimeout(updateProgress, 400);
+          } else {
+            loadingText.textContent = `Success Send Bug To ${targetNumber}`;
+            progressBar.style.width = '100%';
+            setTimeout(() => {
+              modal.style.display = 'none';
+              resolve();
+            }, 1500);
+          }
+        }
+        
+        updateProgress();
+      });
+    }
+
+    // Send Bug Function
+    async function sendBug() {
+      const targetNumber = document.getElementById('targetNumber').value.trim();
+      const bugType = document.getElementById('bugType').value;
+      
+      if (!targetNumber) {
+        showNotification("Ada kesalahan nih! Tolong Diisi Numbernya Ya Sengku", true);
+        return;
+      }
+      
+      await showLoading(targetNumber, bugType);
+      showNotification(`✅ Succes Send Bug To ${targetNumber} | Bug: ${bugType}`, false);
+      
+      // Optional: Clear input
+      // document.getElementById('targetNumber').value = '';
+    }
+
+    function handleFormSubmit(event) {
+      event.preventDefault();
+      showNotification("Pesan Anda telah terkirim! Kami akan membalas secepatnya.", false);
+      
+      const form = event.target;
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form)
+      }).catch(err => console.log('Form submit error', err));
+      
+      form.reset();
+      return false;
+    }
+
+    // Initialize
+    checkSession();
+    
+    $(document).ready(function() {
+      particleground(document.getElementById('particles'), {
+        dotColor: '#b19cd9',
+        lineColor: '#8a2be2',
+        minSpeedX: 0.1,
+        maxSpeedX: 0.3,
+        minSpeedY: 0.1,
+        maxSpeedY: 0.3,
+        density: 10000,
+        particleRadius: 3,
+      });
+    });
+  </script>
+</body>
+</html>
