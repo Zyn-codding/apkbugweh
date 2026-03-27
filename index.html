@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>ZETSU | Login</title>
+  <title>NXT CORE | Login</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;800;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <style>
@@ -275,9 +275,9 @@
 
   <div class="card">
     <div class="logo">
-      <div class="logo-icon">Z</div>
-      <div class="title">ZETSU</div>
-      <div class="subtitle">ZETSU-X ACCESS SYSTEM</div>
+      <div class="logo-icon">NX</div>
+      <div class="title">NXT CORE</div>
+      <div class="subtitle">NXT CORE ACCESS SYSTEM</div>
     </div>
 
     <form id="loginForm">
@@ -290,12 +290,12 @@
         <input type="password" id="password" placeholder="Password" required>
       </div>
       <button type="submit">
-        <i class="fas fa-sign-in-alt"></i> ACCESS ZETSU-X
+        <i class="fas fa-sign-in-alt"></i> ACCESS NXT CORE
       </button>
     </form>
 
     <div class="footer">
-      <i class="fas fa-shield-alt"></i> ZETSU Security System v1.0
+      <i class="fas fa-shield-alt"></i> NXT CORE Security System v1.0
     </div>
   </div>
 
@@ -303,10 +303,9 @@
 
   <script>
     // ==================== 5 AKUN ====================
-    // GANTI USERNAME & PASSWORD DI SINI, ZETSU!
     const ACCOUNTS = [
-      { username: "zetsu", password: "zetsu123", level: "Owner" },
-      { username: "fanz", password: "fanz123", level: "Admin" },
+      { username: "admin", password: "admin123", level: "Owner" },
+      { username: "owner", password: "owner123", level: "Admin" },
       { username: "reseller", password: "reseller123", level: "Reseller" },
       { username: "vip", password: "vip123", level: "VIP" },
       { username: "user", password: "user123", level: "Basic" }
@@ -331,11 +330,10 @@
       const password = document.getElementById('password').value;
       
       if (!username || !password) {
-        showToast("Isi username dan password dulu, Zetsu!", true);
+        showToast("Isi username dan password dulu!", true);
         return false;
       }
       
-      // Cari akun yang cocok
       const found = ACCOUNTS.find(acc => 
         acc.username.toLowerCase() === username.toLowerCase() && 
         acc.password === password
@@ -344,12 +342,10 @@
       if (found) {
         showToast(`✓ Login berhasil! Selamat datang, ${found.username} (${found.level})`, false);
         
-        // Simpan session
-        localStorage.setItem('zetsu_logged_in', 'true');
-        localStorage.setItem('zetsu_user', found.username);
-        localStorage.setItem('zetsu_level', found.level);
+        localStorage.setItem('nxt_logged_in', 'true');
+        localStorage.setItem('nxt_user', found.username);
+        localStorage.setItem('nxt_level', found.level);
         
-        // Redirect ke dashboard
         setTimeout(() => {
           window.location.href = 'dashboard.html';
         }, 1000);
@@ -360,7 +356,6 @@
       return false;
     }
 
-    // Buat efek floating particles
     function createParticles() {
       const container = document.getElementById('particles');
       const particleCount = 45;
@@ -384,10 +379,7 @@
       }
     }
 
-    // Attach event listener
     document.getElementById('loginForm').addEventListener('submit', handleLogin);
-    
-    // Initialize
     createParticles();
   </script>
 </body>
