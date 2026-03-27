@@ -159,12 +159,13 @@
       margin-right: auto;
     }
 
-    .bug-panel {
+    /* Bug Panel Styles */
+    .bug-panel, .ip-panel {
       max-width: 600px;
       margin: 0 auto;
     }
 
-    .bug-title {
+    .bug-title, .ip-title {
       text-align: center;
       font-size: 24px;
       margin-bottom: 30px;
@@ -204,7 +205,7 @@
       color: rgba(255, 255, 255, 0.4);
     }
 
-    .send-btn {
+    .send-btn, .track-btn {
       width: 100%;
       padding: 14px;
       background: linear-gradient(135deg, #8a2be2, #4b0082);
@@ -218,9 +219,51 @@
       margin-top: 10px;
     }
 
-    .send-btn:hover {
+    .send-btn:hover, .track-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 10px 25px -5px rgba(138, 43, 226, 0.5);
+    }
+
+    /* Result Card */
+    .result-card {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(138, 43, 226, 0.3);
+      border-radius: 16px;
+      padding: 20px;
+      margin-top: 25px;
+    }
+
+    .result-title {
+      font-size: 18px;
+      color: #b88aff;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .result-item {
+      background: rgba(138, 43, 226, 0.1);
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    .result-label {
+      font-size: 11px;
+      color: #b88aff;
+      opacity: 0.7;
+      margin-bottom: 4px;
+    }
+
+    .result-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: white;
+      word-break: break-all;
     }
 
     .modal {
@@ -503,8 +546,12 @@
         flex-direction: column;
       }
       
-      .bug-panel {
+      .bug-panel, .ip-panel {
         padding: 0 10px;
+      }
+      
+      .result-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -526,6 +573,7 @@
     <div class="nav-container">
       <a href="#" class="nav-link active" data-section="home">Home</a>
       <a href="#" class="nav-link" data-section="bug">Bug</a>
+      <a href="#" class="nav-link" data-section="iptracker">IP Tracker</a>
       <a href="#" class="nav-link" data-section="plans">Plans</a>
       <a href="#" class="nav-link" data-section="about">About</a>
       <a href="#" class="nav-link" data-section="contact">Contact</a>
@@ -537,9 +585,14 @@
     <section id="home" class="section active">
       <div class="hero">
         <div class="hero-subtitle">Welcome to NXT CORE - Advanced System API Bug & Exploit Platform.</div>
-        <a href="#" class="btn" onclick="showSection('bug')">
-          <i class="fas fa-bug"></i> Launch Bug Tools
-        </a>
+        <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+          <a href="#" class="btn" onclick="showSection('bug')">
+            <i class="fas fa-bug"></i> Bug Tools
+          </a>
+          <a href="#" class="btn" onclick="showSection('iptracker')">
+            <i class="fas fa-map-marker-alt"></i> IP Tracker
+          </a>
+        </div>
       </div>
     </section>
 
@@ -574,6 +627,33 @@
       </div>
     </section>
 
+    <!-- IP TRACKER SECTION -->
+    <section id="iptracker" class="section">
+      <div class="ip-panel">
+        <h2 class="ip-title">
+          <i class="fas fa-map-marker-alt"></i> NXT CORE IP Tracker
+        </h2>
+        
+        <div class="form-group">
+          <label><i class="fas fa-globe"></i> IP Target / Kosongkan agar bisa lihat IP Anda</label>
+          <input type="text" id="ipTarget" placeholder="e.g. 8.8.8.8 atau kosongkan" autocomplete="off">
+        </div>
+        
+        <button class="track-btn" onclick="trackIP()">
+          <i class="fas fa-search-location"></i> LACAK
+        </button>
+        
+        <div id="ipResult" class="result-card" style="display: none;">
+          <div class="result-title">
+            <i class="fas fa-chart-line"></i> HASIL PELACAKAN
+          </div>
+          <div class="result-grid" id="ipResultGrid">
+            <!-- Hasil akan diisi JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- PLANS SECTION -->
     <section id="plans" class="section">
       <h2 class="section-title">Membership Plans</h2>
@@ -586,7 +666,7 @@
             <li><i class="fas fa-check"></i> Standard Support</li>
             <li><i class="fas fa-check"></i> Web Panel Access</li>
           </ul>
-          <a href="https://t.me/ZetsuTheDev?text=Mas%20Mau%20Buy%20Basic%20User" class="btn btn-outline">Select Plan</a>
+          <a href="https://t.me/SyallOfficial?text=Mas%20Mau%20Buy%20Basic%20User" class="btn btn-outline">Select Plan</a>
         </div>
 
         <div class="plan-card">
@@ -598,7 +678,7 @@
             <li><i class="fas fa-check"></i> Web Panel Access</li>
             <li><i class="fas fa-check"></i> Create Basic User</li>
           </ul>
-          <a href="https://t.me/ZetsuTheDev?text=Mas%20Mau%20Buy%20Reseller%20User" class="btn btn-outline">Select Plan</a>
+          <a href="https://t.me/SyallOfficial?text=Mas%20Mau%20Buy%20Reseller%20User" class="btn btn-outline">Select Plan</a>
         </div>
 
         <div class="plan-card">
@@ -610,7 +690,7 @@
             <li><i class="fas fa-check"></i> Web Panel Access</li>
             <li><i class="fas fa-check"></i> Role Management System</li>
           </ul>
-          <a href="https://t.me/ZetsuTheDev?text=Mas%20Buy%20Admin%20User" class="btn btn-outline">Select Plan</a>
+          <a href="https://t.me/SyallOfficial?text=Mas%20Buy%20Admin%20User" class="btn btn-outline">Select Plan</a>
         </div>
       </div>
     </section>
@@ -647,7 +727,7 @@
             </div>
             <div>
               <h3>Telegram</h3>
-              <p>@ZetsuTheDev</p>
+              <p>@SyallOfficial</p>
             </div>
           </div>
           <div class="contact-item">
@@ -656,7 +736,7 @@
             </div>
             <div>
               <h3>Email</h3>
-              <p>dozdevelopment1@gmail.com</p>
+              <p>irsyalfaiz97@gmail.com</p>
             </div>
           </div>
           <div class="contact-item">
@@ -818,6 +898,68 @@
       showNotification(`✅ Succes Send Bug To ${targetNumber} | Bug: ${bugType}`, false);
     }
 
+    // ========== IP TRACKER FUNCTION ==========
+    async function trackIP() {
+      const ipTarget = document.getElementById('ipTarget').value.trim();
+      const resultDiv = document.getElementById('ipResult');
+      const resultGrid = document.getElementById('ipResultGrid');
+      
+      showNotification("🔍 Sedang melacak IP...", false);
+      
+      let apiUrl = '';
+      
+      if (ipTarget === '') {
+        // Kosongkan - ambil IP sendiri
+        apiUrl = 'https://ipapi.co/json/';
+      } else {
+        // Lacak IP target
+        apiUrl = `https://ipapi.co/${ipTarget}/json/`;
+      }
+      
+      try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        
+        if (data.error) {
+          showNotification(`❌ IP tidak valid: ${data.reason || 'IP tidak ditemukan'}`, true);
+          resultDiv.style.display = 'none';
+          return;
+        }
+        
+        // Format data
+        const now = new Date();
+        const waktuAkses = now.toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' });
+        
+        const resultData = [
+          { label: "🌐 IP Address", value: data.ip || '-' },
+          { label: "📍 Kota", value: data.city || '-' },
+          { label: "🏙️ Kabupaten", value: data.region || '-' },
+          { label: "🗺️ Wilayah", value: data.region || '-' },
+          { label: "🏘️ Kecamatan", value: data.city || '-' },
+          { label: "📌 Alamat Lengkap", value: `${data.city ? data.city + ', ' : ''}${data.region ? data.region + ', ' : ''}${data.country_name || ''}` },
+          { label: "⏰ Waktu Akses", value: waktuAkses },
+          { label: "🌍 Negara", value: data.country_name || '-' },
+          { label: "📡 ISP", value: data.org || '-' },
+          { label: "🗺️ Latitude/Longitude", value: data.latitude && data.longitude ? `${data.latitude}, ${data.longitude}` : '-' }
+        ];
+        
+        resultGrid.innerHTML = resultData.map(item => `
+          <div class="result-item">
+            <div class="result-label">${item.label}</div>
+            <div class="result-value">${item.value}</div>
+          </div>
+        `).join('');
+        
+        resultDiv.style.display = 'block';
+        showNotification(`✅ Berhasil melacak IP: ${data.ip || ipTarget}`, false);
+        
+      } catch (error) {
+        console.error('Error tracking IP:', error);
+        showNotification("❌ Gagal melacak IP! Coba lagi nanti.", true);
+        resultDiv.style.display = 'none';
+      }
+    }
+
     function handleFormSubmit(event) {
       event.preventDefault();
       showNotification("Pesan Anda telah terkirim! Kami akan membalas secepatnya.", false);
@@ -848,4 +990,4 @@
     });
   </script>
 </body>
-</html>
+                                                            </html>
